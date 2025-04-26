@@ -174,3 +174,4 @@ cython_debug/
 .pypirc
 data_analysis/data
 data_analysis/dataAnalysis
+data_analysis/facebook_data
