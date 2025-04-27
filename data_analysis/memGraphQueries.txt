@@ -1,0 +1,57 @@
+Display a subset of the network with nodes and their edges.
+```
+// 1. Match nodes and their relationships
+MATCH (n)-[r]-(m)
+WITH n, r, m
+LIMIT 100
+
+// 2. Return both nodes AND relationships with styling
+RETURN n, r, m,
+{
+  color: CASE 
+    WHEN n.platform = 'Facebook' THEN '#3b5998'
+    WHEN n.platform = 'Twitter' THEN '#1DA1F2'
+    WHEN n.platform = 'LinkedIn' THEN '#0077B5'
+    ELSE '#808080'
+  END
+} AS n_styling,
+{
+  color: CASE 
+    WHEN m.platform = 'Facebook' THEN '#3b5998'
+    WHEN m.platform = 'Twitter' THEN '#1DA1F2'
+    WHEN m.platform = 'LinkedIn' THEN '#0077B5'
+    ELSE '#808080'
+  END
+} AS m_styling
+
+```
+
+
+Use a subset of the network as the company sales men
+
+```
+MATCH (n)
+WHERE size([(n)-[]-() | 1]) >= 5 AND size([(n)-[]-() | 1]) <= 10
+RETURN n.user_id AS user_id,
+       n.platform AS platform,
+       n.name AS name,
+       n.email AS email,
+       n.phone AS phone,
+       n.age AS age,
+       n.gender AS gender,
+       n.nationality AS nationality,
+       n.friendList AS friendList,
+       n.connectionList AS connectionList,
+       n.emailList AS emailList,
+       n.twitterInteraction AS twitterInteraction
+```
+
+
+User ids with atleast 30 edges:
+```
+MATCH (n)-[r]-()
+WITH n, count(r) AS degree
+WHERE degree <= 30
+RETURN n.user_id;
+```
+
