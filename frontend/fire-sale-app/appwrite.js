@@ -1,8 +1,8 @@
 import { Client, Account } from 'appwrite';
 
 export const client = new Client();
-const apiUrl = process.env.APPWRITE_API_ENDPOINT;
-const projectId = process.env.APPWRITE_PROJECT;
+const apiUrl = process.env.NEXT_PUBLIC_APPWRITE_API_ENDPOINT;
+const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT;
 
 client
     .setEndpoint(apiUrl)
