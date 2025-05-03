@@ -6,7 +6,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 # from agentController import AgentController
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
-from controller.sales_lead_controller import sales_lead_bp
+from api.controller.sales_lead_controller import sales_lead_bp
 from config.appwrite_config import (
     client,
     databases,

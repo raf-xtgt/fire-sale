@@ -2,7 +2,7 @@ import { SendMessageResponse } from "../models/sendMessageResponse";
 
 export const searchForSalesLeads = async (message: string): Promise<any> => {
     try {
-      const response = await fetch('http://localhost:5000/api/hello', {
+      const response = await fetch('http://localhost:5000/api/search-sales-leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
