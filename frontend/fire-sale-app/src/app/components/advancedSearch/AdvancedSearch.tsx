@@ -59,7 +59,6 @@ const AdvancedSearch = () => {
                 )}
             </button>
         </div>
-{/* <p className="text-sm text-gray-500 -mt-4 mb-4">Search for category, name, company, etc</p> */}
       
       <form onSubmit={handleSubmit}>
         {isFormExpanded && (

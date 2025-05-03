@@ -19,9 +19,9 @@ export default function Home() {
           <p className="text-3xl">12</p>
         </div>
       </div>
-      <div className="p-4">
+      {/* <div className="p-4">
         <CustomerListing />
-      </div>
+      </div> */}
       <div className="p-4">
         <AdvancedSearch />
       </div>
