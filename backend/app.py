@@ -24,10 +24,11 @@ print(fireSaleDb)
 
 app = Flask(__name__)
 CORS(app, resources={
-    r"/send_message": {
-        "origins": "http://localhost:3000"
+    r"/*": {  # This will apply to all routes
+        "origins": "http://localhost:3000",
+        "supports_credentials": True
     }
-}, supports_credentials=True)
+})
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 socketio = SocketIO(app, 
                    cors_allowed_origins="*",

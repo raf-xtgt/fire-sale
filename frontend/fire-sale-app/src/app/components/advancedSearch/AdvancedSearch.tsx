@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { searchForSalesLeads } from '@/app/services/salesLeadService';
+
 
 const AdvancedSearch = () => {
   const [isFormExpanded, setIsFormExpanded] = useState(false);
@@ -35,6 +37,27 @@ const AdvancedSearch = () => {
     // Here you would typically send the data to an API
   };
 
+  const handleSearch = async (e:any) => {
+    e.preventDefault();
+    console.log('Search Data:', searchData);
+
+      
+      try {
+        // Send message to backend
+        const result = await searchForSalesLeads(searchData.searchQuery);
+        
+        if (result.error) {
+          // Handle error (you might want to show an error message to the user)
+          console.error('Failed to send message:', result.error);
+          // Optionally: remove the optimistic update or mark it as failed
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+        // Handle error
+      }
+    }
+
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
         <div className="mb-6 flex items-center gap-2">
@@ -60,7 +83,7 @@ const AdvancedSearch = () => {
             </button>
         </div>
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSearch}>
         {isFormExpanded && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>

@@ -6,6 +6,7 @@ sales_lead_bp = Blueprint('fire_sale_bp', __name__)
 
 @sales_lead_bp.route('/hello', methods=['POST'])
 def hello_world():
+    print("hello from fire sale")
     return jsonify({"message": "Hello, world! from fire sale"}), 200
 
 # You can add more routes to this file
