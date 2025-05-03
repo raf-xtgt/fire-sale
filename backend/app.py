@@ -6,8 +6,22 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 # from agentController import AgentController
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
+from controller.sales_lead_controller import sales_lead_bp
+from config.appwrite_config import (
+    client,
+    databases,
+    fireSaleDb,
+    userProfileCollection,
+    socialMediaCollection,
+    communicationCollection,
+    locationCollection,
+    behaviorMetadataCollection
+)
+
 
 load_dotenv()
+print(fireSaleDb)
+
 app = Flask(__name__)
 CORS(app, resources={
     r"/send_message": {
@@ -21,6 +35,7 @@ socketio = SocketIO(app,
                    logger=True,
                    engineio_logger=True)
 
+app.register_blueprint(sales_lead_bp, url_prefix='/api')
                 
 # Replace with your bot token and chat ID
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
