@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { searchForSalesLeads } from '@/app/services/salesLeadService';
-
+import SalesLeadListing from '../salesLead/salesLeadListing';
+import { SalesLead } from '@/app/models/SalesLead';
 
 const AdvancedSearch = () => {
   const [isFormExpanded, setIsFormExpanded] = useState(false);
+  const [leads, setLeads] = useState<SalesLead[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const [searchData, setSearchData] = useState({
     searchQuery: '',
     orderNumber: '',
@@ -37,26 +42,26 @@ const AdvancedSearch = () => {
     // Here you would typically send the data to an API
   };
 
-  const handleSearch = async (e:any) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Search Data:', searchData);
-
-      
-      try {
-        // Send message to backend
-        const result = await searchForSalesLeads(searchData.searchQuery);
-        
-        if (result.error) {
-          // Handle error (you might want to show an error message to the user)
-          console.error('Failed to send message:', result.error);
-          // Optionally: remove the optimistic update or mark it as failed
-        }
-      } catch (error) {
-        console.error('Error sending message:', error);
-        // Handle error
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const result = await searchForSalesLeads(searchData.searchQuery);
+      console.log("api response", result)
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setLeads(result.data);
       }
+    } catch (error) {
+      setError('Failed to fetch sales leads. Please try again.');
+      console.error('Error fetching sales leads:', error);
+    } finally {
+      setIsLoading(false);
     }
-
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -259,10 +264,27 @@ const AdvancedSearch = () => {
             type="submit"
             className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            SEARCH
+            {isLoading ? 'SEARCHING...' : 'SEARCH'}
           </button>
         </div>
       </form>
+
+      { isLoading && (
+        <div className='mt-6 text-center'>
+          <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto'>
+          </div>
+          <p className="mt-2 text-gray-600">Searching for leads...</p>
+        </div>
+      )}
+      {error && (
+        <div className="mt-6 p-4 bg-red-100 text-red-700 rounded-md">
+          {error}
+        </div>
+      )}
+
+      {!isLoading && !error && (
+        <SalesLeadListing leads={leads} />
+      )}
     </div>
   );
 };

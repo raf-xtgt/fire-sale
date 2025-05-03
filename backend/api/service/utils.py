@@ -52,3 +52,15 @@ def extract_keywords(query, custom_stopwords=None, min_word_length=2):
             keywords.append(lemma)
     
     return keywords
+
+def convert_to_serializable(obj):
+    if isinstance(obj, (list, tuple)):
+        return [convert_to_serializable(item) for item in obj]
+    elif isinstance(obj, dict):
+        return {key: convert_to_serializable(value) for key, value in obj.items()}
+    elif hasattr(obj, '__dict__'):
+        return convert_to_serializable(obj.__dict__)
+    elif isinstance(obj, (str, int, float, bool)) or obj is None:
+        return obj
+    else:
+        return str(obj)  # Fallback to string representation

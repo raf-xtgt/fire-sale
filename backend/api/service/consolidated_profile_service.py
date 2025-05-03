@@ -217,7 +217,8 @@ def _generate_insights(profile):
     insights["primary_interests"] = [item[0] for item in 
                                    sorted(combined_interests.items(), 
                                           key=lambda x: x[1], reverse=True)[:5]]
-    
+    # insights["primary_interests"] = ", ".join([item[0] for item in sorted(combined_interests.items(), key=lambda x: x[1], reverse=True)[:5]])
+
     # Communication patterns
     insights["communication_patterns"] = {
         "primary_medium": "social" if social_activity > email_activity else "email",

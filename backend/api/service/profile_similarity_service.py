@@ -51,6 +51,11 @@ def flatten_user_profile(profile: Dict[str, Any]) -> Dict[str, Any]:
     insights = profile.get('derived_insights', {})
     flat['activity_level'] = insights.get('activity_level')
     flat['primary_interests'] = list(set(insights.get('primary_interests', [])))
+    # flat['primary_interests'] = list(
+    # set(
+    #     item.strip() for item in insights.get('primary_interests', '').split(',')
+    #     if item.strip()  # Skip empty strings after stripping
+    # ))
     if 'communication_patterns' in insights:
         flat['primary_medium'] = insights['communication_patterns'].get('primary_medium')
         flat['recent_activity'] = insights['communication_patterns'].get('recent_activity')
