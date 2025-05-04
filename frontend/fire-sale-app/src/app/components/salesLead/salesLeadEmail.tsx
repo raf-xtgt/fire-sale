@@ -27,6 +27,7 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Email data:', formData);
+    console.log("primary interests", lead.derived_insights.primary_interests)
     // Here you would typically send the email
   };
 
@@ -117,17 +118,17 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
             </button>
             <div className="space-x-4">
               <button 
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                type="submit"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
               >
-                Discard
+                Generate template
               </button>
+              
               <button 
                 type="submit"
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
               >
-                Next search
+                Send
               </button>
             </div>
           </div>
