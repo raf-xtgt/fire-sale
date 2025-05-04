@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, Response
 import json
 from  ..service import *
 from ..models import *
+from .agentController import *
 
 # Create a Blueprint for these routes
 sales_lead_bp = Blueprint('fire_sale_bp', __name__)
@@ -66,3 +67,14 @@ def hello_world():
 @sales_lead_bp.route('/greet', methods=['POST'])
 def greet():
     return jsonify({"message": "Greetings from the modular route!"}), 200
+
+
+@sales_lead_bp.route('/generate-sales-lead-email', methods=['POST'])
+def generate_sale_lead_email():
+    data = request.json
+    print(data['payload'])
+    b_desc = data['payload']['business_service_desc']
+    p_interests = data['payload']['audience_interests']
+    agent_controller = AgentController()
+    response = agent_controller.get_response(b_desc, p_interests)
+    return response, 200

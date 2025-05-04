@@ -3,6 +3,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import string
+import requests
 
 # Download NLTK resources (run once)
 import nltk
@@ -64,3 +65,22 @@ def convert_to_serializable(obj):
         return obj
     else:
         return str(obj)  # Fallback to string representation
+
+def getResponse(body, url, accessToken):
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer "+accessToken
+    }
+
+    response = requests.post(
+        url,
+        headers=headers,
+        json=body
+    )
+
+    if response.status_code != 200:
+        raise Exception("Non-200 response: " + str(response.text))
+
+    data = response.json()
+    return data

@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { SalesLead } from '@/app/models/SalesLead';
 import { FaFacebook, FaTimes } from 'react-icons/fa';
+import { generateSalesLeadEmail } from '@/app/services/salesLeadService';
+
 
 interface SalesLeadEmailProps {
   lead: SalesLead;
@@ -24,11 +26,17 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Email data:', formData);
     console.log("primary interests", lead.derived_insights.primary_interests)
     // Here you would typically send the email
+    let payload = {
+      "business_service_desc": "EventMakers is a dynamic small-to-medium enterprise (SME) specializing in the planning, organization, and execution of public events that inspire, engage, and bring communities together. With a passionate team of event professionals, we design and deliver a wide range of experiences including festivals, cultural celebrations, public exhibitions, community fairs, concerts, sporting events, and civic ceremonies",
+      "audience_interests": lead.derived_insights.primary_interests 
+    }
+    const salesLeadEmailServiceResp = await generateSalesLeadEmail(payload);
+    console.log("salesLeadEmailServiceResp", salesLeadEmailServiceResp)
   };
 
   return (
