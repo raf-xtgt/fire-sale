@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FaHome, FaComments, FaBars, FaAngleLeft, FaUsersCog } from "react-icons/fa";
+import { FaHome, FaComments, FaBars, FaAngleLeft, FaUsersCog, FaBriefcase } from "react-icons/fa";
 import Link from "next/link";
 import { useUser } from "@/app/state-controller/context/userContext";
 
@@ -36,9 +36,15 @@ export default function LayoutComponent({ children }: { children: React.ReactNod
                 </Link>
               </li>
               <li className="mb-2">          
+                <Link href="/components/service-suite" className="flex items-center justify-center p-2 hover:bg-gray-700 rounded">
+                  <FaBriefcase className="mr-2" />
+                  {isSidebarOpen && "Service Suite"} 
+                </Link>
+              </li>
+              <li className="mb-2">          
                 <Link href="/chat" className="flex items-center justify-center p-2 hover:bg-gray-700 rounded">
                   <FaComments className="mr-2" />
-                  {isSidebarOpen && "Chat"} 
+                  {isSidebarOpen && "Lead Management"} 
                 </Link>
               </li>
               {isAdmin && (
