@@ -4,6 +4,7 @@ import { SalesLead } from '@/app/models/SalesLead';
 import { FaFacebook, FaTimes } from 'react-icons/fa';
 import { generateSalesLeadEmail } from '@/app/services/salesLeadService';
 import { motion } from 'framer-motion';
+import { serviceSuiteService } from '@/app/services/serviceSuiteService';
 
 interface SalesLeadEmailProps {
   lead: SalesLead;
@@ -69,6 +70,9 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
     // Here you would typically send the email
     // alert('Email sent successfully!');
     // onClose();
+    console.log("Sales lead", lead)
+    const createdService = await serviceSuiteService.markAsActiveConsumer(lead.basic_info.user_id, 'ACTIVE_SALES_LEAD');
+
   };
 
   return (

@@ -42,9 +42,9 @@ export default function LayoutComponent({ children }: { children: React.ReactNod
                 </Link>
               </li>
               <li className="mb-2">          
-                <Link href="/chat" className="flex items-center justify-center p-2 hover:bg-gray-700 rounded">
+                <Link href="/components/leadManagement" className="flex items-center justify-center p-2 hover:bg-gray-700 rounded">
                   <FaComments className="mr-2" />
-                  {isSidebarOpen && "Lead Management"} 
+                  {isSidebarOpen && "Leads"} 
                 </Link>
               </li>
               {isAdmin && (

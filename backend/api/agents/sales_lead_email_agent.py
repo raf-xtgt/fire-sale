@@ -40,19 +40,17 @@ class SalesLeadEmailAgent():
                 - Include a call to action (e.g., “Schedule a demo”, “Start your free trial”, “Talk to a consultant”).
                 - End with a warm closing and contact details placeholder.
                 - The business service description may not be provided, so instead only make use of the interests of the target audience.
+                - The email subject and body must be clearly distinct. No details or information in the subject should remain in the email body.
 
                 The final output needs to be structured as follows:
                 subject: This is the email subject.
                 body: This is the email body.
 
-
-                Here is an example input:
                 Details business service description: FastCatering is a full-service event planning small and medium enterprise (SME) dedicated to designing, coordinating, and executing exceptional events tailored to the unique needs of our clients. We specialize in a wide range of events including corporate functions, weddings, private parties, product launches, and community gatherings.
 
                 interests of the target audience: professional parties, government sponsorships.
                 Email subject: Make Your Next Event Unforgettable — Without the Stress
 
-                Here is the example output:
                 body:
                 Planning a professional gathering or government-sponsored event? Let FastCatering make it seamless and spectacular.
 
@@ -106,7 +104,7 @@ class SalesLeadEmailAgent():
             subject_section, body_section = generated_text.split("Body", 1)
             
             # Extract subject line (remove "Subject Line Example" and any extra whitespace/formatting)
-            subject = subject_section.replace("Subject Line Example", "").strip()
+            subject = subject_section.replace("Subject:", "").strip()
             subject = subject.replace("\n", "").strip()
             subject = ' '.join(subject.split())  # Normalize whitespace
             
