@@ -1,10 +1,12 @@
 // components/SalesLeadEmail.tsx
 import React, { useState } from 'react';
 import { SalesLead } from '@/app/models/SalesLead';
-import { FaFacebook, FaTimes } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 import { generateSalesLeadEmail } from '@/app/services/salesLeadService';
 import { motion } from 'framer-motion';
 import { serviceSuiteService } from '@/app/services/serviceSuiteService';
+import { v4 as uuidv4 } from 'uuid'
+import { EmailHistory } from '@/app/models/emailHistory';
 
 interface SalesLeadEmailProps {
   lead: SalesLead;
@@ -73,6 +75,18 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
     console.log("Sales lead", lead)
     const createdService = await serviceSuiteService.markAsActiveConsumer(lead.basic_info.user_id, 'ACTIVE_SALES_LEAD');
 
+    const emailHistory: EmailHistory = {
+      guid: uuidv4(), // Generate a new GUID
+      user_id: lead.basic_info.user_id,
+      sender_email: formData.from,
+      recipient_email: formData.to,
+      email_direction: 'outbound',
+      email_subject: formData.subject,
+      email_body: formData.message,
+      email_time: new Date().toISOString(), // Current timestamp
+    };
+
+    const emailHistoryService = await serviceSuiteService.createEmailHistory(emailHistory);
   };
 
   return (

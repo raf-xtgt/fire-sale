@@ -26,6 +26,7 @@ communicationCollection = None
 locationCollection = None
 behaviorMetadataCollection = None
 serviceSuiteCollection = None
+emailHistoryCollection = None
 
 def initialize_database():
     global fireSaleDb
@@ -493,6 +494,93 @@ def prepare_service_suite_collection():
    
   print("Service suite collection created successfully !")
 
+
+def prepare_email_history():
+    global emailHistoryCollection
+
+    try:
+        collections = databases.list_collections(database_id=fireSaleDb['$id'])
+        for collection in collections['collections']:
+            if collection['name'] == 'email-history':
+                emailHistoryCollection = collection
+                print("Email history collection already exists")
+                return
+    except Exception as e:
+        print(f"Error checking for existing collection: {e}")
+    
+    # If collection doesn't exist, create it
+    emailHistoryCollection = databases.create_collection(
+        database_id=fireSaleDb['$id'],
+        collection_id=ID.unique(),
+        name='email-history'
+    )
+
+    # Create all the attributes
+    databases.create_string_attribute(
+        database_id=fireSaleDb['$id'],
+        collection_id=emailHistoryCollection['$id'],
+        key='guid',
+        size=255,
+        required=True
+    )
+        
+    databases.create_string_attribute(
+        database_id=fireSaleDb['$id'],
+        collection_id=emailHistoryCollection['$id'],
+        key='user_id',
+        size=255,
+        required=False
+    )
+
+    databases.create_string_attribute(
+        database_id=fireSaleDb['$id'],
+        collection_id=emailHistoryCollection['$id'],
+        key='sender_email',
+        size=255,
+        required=False
+    )
+
+    databases.create_string_attribute(
+        database_id=fireSaleDb['$id'],
+        collection_id=emailHistoryCollection['$id'],
+        key='recipient_email',
+        size=255,
+        required=False
+    )
+
+    databases.create_string_attribute(
+        database_id=fireSaleDb['$id'],
+        collection_id=emailHistoryCollection['$id'],
+        key='email_direction',
+        size=255,
+        required=False
+    )
+
+    databases.create_string_attribute(
+        database_id=fireSaleDb['$id'],
+        collection_id=emailHistoryCollection['$id'],
+        key='email_subject',
+        size=255,
+        required=False
+    )
+
+    databases.create_string_attribute(
+        database_id=fireSaleDb['$id'],
+        collection_id=emailHistoryCollection['$id'],
+        key='email_body',
+        size=5000,
+        required=False
+    )
+
+    databases.create_datetime_attribute(
+      database_id=fireSaleDb['$id'],
+      collection_id=emailHistoryCollection['$id'],
+      key='email_time',
+      required=True
+    )
+    print("Created new email history collection")
+
+
 def initialize_appwrite():
     """Initialize all Appwrite resources"""
     initialize_database()
@@ -502,6 +590,7 @@ def initialize_appwrite():
     prepare_location_collection()
     prepare_behavior_metadata_collection()
     prepare_service_suite_collection()
+    prepare_email_history()
 
 # Initialize everything when this module is imported
 initialize_appwrite()

@@ -4,14 +4,15 @@ import { Databases } from 'appwrite';
 import { v4 as uuidv4 } from 'uuid';
 import { ServiceSuite } from '../models/serviceSuite';
 import { Query } from 'appwrite';
-
+import { EmailHistory } from '../models/emailHistory';
 // Initialize the Appwrite Databases service
 const databases = new Databases(client);
 
 // Replace with your actual database ID and collection ID
 const DATABASE_ID:any = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID;
 const COLLECTION_ID:any = process.env.NEXT_PUBLIC_SERVICE_SUITE_COLLECTION;
-const USER_PROFILE_COLLECTION_ID:any = process.env. NEXT_PUBLIC_USER_PROFILE_COLLECTION;
+const USER_PROFILE_COLLECTION_ID:any = process.env.NEXT_PUBLIC_USER_PROFILE_COLLECTION;
+const EMAIL_HISTORY_COLLECTION_ID:any = process.env.NEXT_PUBLIC_EMAIL_HISTORY_COLLECTION;
 
 export const serviceSuiteService = {
   async createServiceSuite(serviceSuiteData: ServiceSuite): Promise<any> {
@@ -91,7 +92,7 @@ export const serviceSuiteService = {
       throw error;
     }
   },
-  
+
   async listActiveLeads(): Promise<any> {
     try {
       const response = await databases.listDocuments(
@@ -104,6 +105,34 @@ export const serviceSuiteService = {
       return response.documents;
     } catch (error) {
       console.error('Error listing service:', error);
+      throw error;
+    }
+  },
+
+  async createEmailHistory(payload:EmailHistory): Promise<any> {
+    try {
+      // Ensure user is authenticated
+      const user = await account.get();
+      if (!user) throw new Error('User not authenticated');
+
+      // Add default status if not provided
+      const suiteId:string = uuidv4()
+      const emailPayload = {
+        ...payload,
+        guid: suiteId
+      };
+      console.log(emailPayload)
+
+      const response = await databases.createDocument(
+        DATABASE_ID,
+        EMAIL_HISTORY_COLLECTION_ID,
+        ID.unique(),
+        emailPayload
+      );
+
+      return response;
+    } catch (error) {
+      console.error('Error creating service:', error);
       throw error;
     }
   },
