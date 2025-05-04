@@ -45,8 +45,16 @@ def search_sales_lead():
 
     # random_doc = random.choice(unique_profiles)
     # print(json.dumps(random_doc, indent=2))
-    serializable_profiles = [convert_to_serializable(profile) for profile in unique_profiles]
-    return jsonify({"data": serializable_profiles}), 200
+    # print(type(random_doc["derived_insights"]["primary_interests"]))
+    # serializable_profiles = [convert_to_serializable(profile) for profile in unique_profiles]
+    # resp = {"leads": unique_profiles}
+    # response_data = json.dumps({"data": str(unique_profiles)}, default=str)
+    # print(response_data)
+    # resp = str(top_5_profiles)
+    # print(unique_profiles)
+    return jsonify({"data": unique_profiles}), 200
+
+    # return Response(response=response_data, status=200, mimetype='application/json')
 
 
 @sales_lead_bp.route('/hello', methods=['POST'])

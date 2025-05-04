@@ -25,6 +25,7 @@ socialMediaCollection = None
 communicationCollection = None
 locationCollection = None
 behaviorMetadataCollection = None
+serviceSuiteCollection = None
 
 def initialize_database():
     global fireSaleDb
@@ -437,6 +438,61 @@ def prepare_behavior_metadata_collection():
   )
   print("Behavioral metadata collection created successfully !")
 
+
+def prepare_service_suite_collection():
+  global serviceSuiteCollection
+  try:
+    collections = databases.list_collections(database_id=fireSaleDb['$id'])
+    for collection in collections['collections']:
+        if collection['name'] == 'service-suite':
+            serviceSuiteCollection = collection
+            print("Service suite collection already exists")
+            return
+  except Exception as e:
+    print(f"Error checking for existing collection: {e}")
+      
+    
+  serviceSuiteCollection = databases.create_collection(
+    database_id=fireSaleDb['$id'],
+    collection_id=ID.unique(),
+    name='service-suite'
+  )
+
+  databases.create_string_attribute(
+    database_id=fireSaleDb['$id'],
+    collection_id=serviceSuiteCollection['$id'],
+    key='suite_id',
+    size=255,
+    required=True
+  )
+
+  databases.create_string_attribute(
+    database_id=fireSaleDb['$id'],
+    collection_id=serviceSuiteCollection['$id'],
+    key='name',
+    size=255,
+    required=False
+  )
+
+  databases.create_string_attribute(
+    database_id=fireSaleDb['$id'],
+    collection_id=serviceSuiteCollection['$id'],
+    key='service-desc',
+    size=5000,
+    required=False
+  )
+
+   
+  databases.create_string_attribute(
+    database_id=fireSaleDb['$id'],
+    collection_id=serviceSuiteCollection['$id'],
+    key='label',
+    size=255,
+    required=True
+  )
+   
+  print("Service suite collection created successfully !")
+
 def initialize_appwrite():
     """Initialize all Appwrite resources"""
     initialize_database()
@@ -445,6 +501,7 @@ def initialize_appwrite():
     prepare_communication_collection()
     prepare_location_collection()
     prepare_behavior_metadata_collection()
+    prepare_service_suite_collection()
 
 # Initialize everything when this module is imported
 initialize_appwrite()
