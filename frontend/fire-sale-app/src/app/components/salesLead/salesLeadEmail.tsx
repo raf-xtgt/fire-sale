@@ -170,7 +170,7 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
               name="message"
               value={formData.message}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-md h-32"
+              className="w-full p-2 border border-gray-300 rounded-md h-56"
               placeholder="Write your message here..."
               required
             />
@@ -194,7 +194,7 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
 
           {/* Service listing selection */}
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Select Service</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Select Service For Context</label>
             <select
               value={selectedService?.suite_id || ''}
               onChange={handleServiceSelect}
@@ -207,11 +207,11 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
                 </option>
               ))}
             </select>
-            {selectedService && (
+            {/* {selectedService && (
               <p className="mt-1 text-xs text-gray-500">
                 {selectedService.service_desc}
               </p>
-            )}
+            )} */}
           </div>
 
           {isGenerating && (

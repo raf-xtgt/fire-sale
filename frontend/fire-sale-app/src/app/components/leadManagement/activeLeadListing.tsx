@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { serviceSuiteService } from '@/app/services/serviceSuiteService';
+import EmailHistoryCard from './emailHistory';
 
 export default function ActiveLeadListing() {
     const [services, setServices] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
+    const [selectedService, setSelectedService] = useState<any | null>(null);
 
     // Load services on component mount
     useEffect(() => {
@@ -27,19 +28,17 @@ export default function ActiveLeadListing() {
         fetchActiveLeads();
     }, []);
 
+    const handleRowClick = (service: any) => {
+      setSelectedService(service);
+    };
 
-    const toggleRow = (index: number) => {
-      const newExpandedRows = new Set(expandedRows);
-      if (newExpandedRows.has(index)) {
-        newExpandedRows.delete(index);
-      } else {
-        newExpandedRows.add(index);
-      }
-      setExpandedRows(newExpandedRows);
+    const handleCloseCard = () => {
+      setSelectedService(null);
     };
   
-      return (
-        <div className="bg-white p-4 rounded-lg shadow">
+    return (
+      <div className="flex flex-col lg:flex-row gap-6 h-full">
+        <div className={`bg-white p-4 rounded-lg shadow ${selectedService ? 'lg:w-1/2' : 'w-full'}`}>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold">Active Leads</h2>
           </div>
@@ -54,30 +53,36 @@ export default function ActiveLeadListing() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                    {services.map((service, index) => (
-                    
-                        <tr 
-                            key={index} 
-                            className={`hover:bg-gray-50 cursor-pointer ${expandedRows.has(index) ? 'bg-gray-50' : ''}`}
-                            onClick={() => toggleRow(index)}
-                        >
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {service.name}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {service.email}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                            4
-                            </td>
-                        </tr>
-
-                        
-                    ))}
-                </tbody>
+                {services.map((service, index) => (
+                  <tr 
+                    key={index} 
+                    className={`hover:bg-gray-50 cursor-pointer ${selectedService?.id === service.id ? 'bg-gray-100' : ''}`}
+                    onClick={() => handleRowClick(service)}
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {service.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {service.email}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      4
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
-            
         </div>
-      );
-  }
+
+        {selectedService && (
+          <div className="lg:w-1/2 w-full">
+            <EmailHistoryCard 
+              service={selectedService} 
+              onClose={handleCloseCard} 
+            />
+          </div>
+        )}
+      </div>
+    );
+}

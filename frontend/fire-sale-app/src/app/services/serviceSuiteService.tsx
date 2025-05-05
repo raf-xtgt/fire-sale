@@ -137,4 +137,21 @@ export const serviceSuiteService = {
     }
   },
 
+  async getMessagesByUserId(userId:any): Promise<any> {
+    try {
+      const response = await databases.listDocuments(
+        DATABASE_ID,
+        EMAIL_HISTORY_COLLECTION_ID,
+        [
+          Query.equal('user_id', userId)
+        ]
+      );
+      return response.documents;
+    } catch (error) {
+      console.error('Error listing service:', error);
+      throw error;
+    }
+  },
+
+
 };
