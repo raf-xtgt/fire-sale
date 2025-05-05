@@ -66,7 +66,7 @@ export default function ActiveLeadListing() {
                       {service.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      4
+                      1
                     </td>
                   </tr>
                 ))}

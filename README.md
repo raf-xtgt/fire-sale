@@ -1,1 +1,9 @@
 # fire-sale
+
+## AI powered sales lead generation by leveraging implicit social networks.
+
+### Problem Statement
+Small and medium-sized enterprises (SMEs) often struggle to grow because they face significant barriers in acquiring new clients. Larger corporations have brand recognition, sales teams, and access to broader networks, making it difficult for SMEs to compete and gain trust. Traditional lead-generation platforms are generic, rely on explicit networks like LinkedIn, and require substantial manual effort. This limits the ability of SMEs—especially those in underserved regions or sectors—to surface relevant sales opportunities, build credibility, and expand their customer base effectively.
+
+### Solution Statement
+FireSale is a web application designed to empower SMEs by unlocking hidden sales opportunities through implicit social networks. By aggregating data from public sources, user-approved integrations, and indirect online affiliations, FireSale builds a contextual web of relationships tailored to each SME’s domain. Users can enter a business query (e.g., “Wellness catering for corporate retreats”), and FireSale surfaces highly relevant sales leads based on shared affinities and indirect trust pathways. It then uses IBM’s Granite foundation models via watsonx.ai to generate personalized marketing emails that reflect the SME’s offerings and the lead’s likely interests. By automating trust-based discovery and communication, FireSale enables SMEs to compete more effectively, expand reach, and contribute to inclusive economic growth—advancing the aims of UN Sustainable Development Goal 8.

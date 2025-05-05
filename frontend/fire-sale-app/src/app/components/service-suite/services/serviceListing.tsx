@@ -142,7 +142,7 @@ export default function ServiceListing() {
           </div>
           
           <div className="mt-4 text-sm text-gray-500">
-            Showing data 1 to 8 of 256K entries
+            {/* Showing data 1 to 8 of 256K entries */}
           </div>
     
           <AddCustomer

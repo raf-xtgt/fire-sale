@@ -29,16 +29,16 @@ export default function LayoutComponent({ children }: { children: React.ReactNod
         <div>
           <nav className="mt-6">
             <ul>
+            <li className="mb-2">          
+                <Link href="/components/service-suite" className="flex items-center justify-center p-2 hover:bg-gray-700 rounded">
+                  <FaBriefcase className="mr-2" />
+                  {isSidebarOpen && "Service Suite"} 
+                </Link>
+              </li>
               <li className="mb-2">
                 <Link href="/" className="flex items-center justify-center p-2 hover:bg-gray-700 rounded">
                   <FaSearch className="mr-2" />
                   {isSidebarOpen && "Lead Search"} 
-                </Link>
-              </li>
-              <li className="mb-2">          
-                <Link href="/components/service-suite" className="flex items-center justify-center p-2 hover:bg-gray-700 rounded">
-                  <FaBriefcase className="mr-2" />
-                  {isSidebarOpen && "Service Suite"} 
                 </Link>
               </li>
               <li className="mb-2">          
