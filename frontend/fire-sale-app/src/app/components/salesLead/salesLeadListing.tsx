@@ -12,8 +12,9 @@ const SalesLeadListing: React.FC<SalesLeadListingProps> = ({ leads }) => {
   const [selectedLead, setSelectedLead] = useState<SalesLead | null>(null);
   const [showEmailUI, setShowEmailUI] = useState(false);
 
-  // Dummy interests from your image
-  const dummyInterests = ['event planning', 'catering', 'health & safety', 'government sponsors', 'online retail store', 'plumbing', 'investment services', 'medical equipment', 'first aid kit'];
+  // Dummy interests 
+  const dummyInterests = ['event planning', 'catering',  'government sponsors', 'public gathering', 'parties', 'conferences'];
+  // const dummyInterests = ['event planning', 'catering', 'health & safety', 'government sponsors', 'online retail store', 'plumbing', 'investment services', 'medical equipment', 'first aid kit'];
 
   const handleReachOut = (lead: SalesLead) => {
     // Create a copy of the lead to modify

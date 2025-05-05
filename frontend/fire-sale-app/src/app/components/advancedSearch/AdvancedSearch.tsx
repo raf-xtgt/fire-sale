@@ -74,7 +74,7 @@ const AdvancedSearch = () => {
                 placeholder="Ask Me anything..."
                 className="flex-1 p-4 text-xl border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <button
+            {/* <button
                 type="button"
                 onClick={() => setIsFormExpanded(!isFormExpanded)}
                 className="p-2 text-gray-500 hover:text-gray-700 focus:outline-none"
@@ -85,7 +85,7 @@ const AdvancedSearch = () => {
                 ) : (
                 <FiChevronDown size={24} />
                 )}
-            </button>
+            </button> */}
         </div>
       
       <form onSubmit={handleSearch}>

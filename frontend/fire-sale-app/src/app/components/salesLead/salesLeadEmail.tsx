@@ -1,5 +1,5 @@
 // components/SalesLeadEmail.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SalesLead } from '@/app/models/SalesLead';
 import { FaTimes } from 'react-icons/fa';
 import { generateSalesLeadEmail } from '@/app/services/salesLeadService';
@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { serviceSuiteService } from '@/app/services/serviceSuiteService';
 import { v4 as uuidv4 } from 'uuid'
 import { EmailHistory } from '@/app/models/emailHistory';
+import { ServiceSuite } from '@/app/models/serviceSuite';
 
 interface SalesLeadEmailProps {
   lead: SalesLead;
@@ -14,6 +15,10 @@ interface SalesLeadEmailProps {
 }
 
 const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
+  const [services, setServices] = useState<ServiceSuite[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedService, setSelectedService] = useState<ServiceSuite | null>(null);
+  
   const [formData, setFormData] = useState({
     from: 'sales@fireSale.com',
     to: lead.basic_info.email,
@@ -26,7 +31,7 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
     email_body: string;
   } | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -34,14 +39,35 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
     }));
   };
 
+    // Load services on component mount
+    useEffect(() => {
+      const fetchServices = async () => {
+        try {
+          const serviceList = await serviceSuiteService.listServices();
+          setServices(serviceList);
+        } catch (err) {
+          setError('Failed to load services');
+          console.error(err);
+        }
+      };
+      fetchServices();
+    }, []);
+
+    const handleServiceSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const selectedId = e.target.value;
+      const service = services.find(s => s.suite_id === selectedId) || null;
+      setSelectedService(service);
+    };
+
   const handleGenerateTemplate = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsGenerating(true);
     setGeneratedEmail(null);
     
     try {
+      console.log("service", selectedService)
       const payload = {
-        "business_service_desc": "EventMakers is a dynamic small-to-medium enterprise (SME) specializing in the planning, organization, and execution of public events that inspire, engage, and bring communities together. With a passionate team of event professionals, we design and deliver a wide range of experiences including festivals, cultural celebrations, public exhibitions, community fairs, concerts, sporting events, and civic ceremonies",
+        "business_service_desc": selectedService?.service_desc || "",
         "audience_interests": lead.derived_insights.primary_interests 
       };
       
@@ -165,6 +191,28 @@ const SalesLeadEmail: React.FC<SalesLeadEmailProps> = ({ lead, onClose }) => {
               </div>
             </div>
           )}
+
+          {/* Service listing selection */}
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Select Service</label>
+            <select
+              value={selectedService?.suite_id || ''}
+              onChange={handleServiceSelect}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">Select a service...</option>
+              {services.map((service) => (
+                <option key={service.suite_id} value={service.suite_id}>
+                  {service.name}
+                </option>
+              ))}
+            </select>
+            {selectedService && (
+              <p className="mt-1 text-xs text-gray-500">
+                {selectedService.service_desc}
+              </p>
+            )}
+          </div>
 
           {isGenerating && (
             <motion.div 

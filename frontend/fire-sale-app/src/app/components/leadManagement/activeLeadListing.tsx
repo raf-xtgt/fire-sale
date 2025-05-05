@@ -41,7 +41,7 @@ export default function ActiveLeadListing() {
       return (
         <div className="bg-white p-4 rounded-lg shadow">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">All Active leads</h2>
+            <h2 className="text-xl font-bold">Active Leads</h2>
           </div>
                     
           <div className="overflow-x-auto">

@@ -23,7 +23,7 @@ class SalesLeadEmailAgent():
 
         prompt = f"""You are a professional marketing copywriter.
                 Using the following context, generate a compelling and persuasive marketing email template designed to drive sales.
-                The email should highlight the benefits of the services provided, speak directly to the interests and needs of the target audience, and include a clear call to action that encourages immediate engagement.
+                The email should highlight the benefits of the services provided, speak directly to the relevant interests and needs of the target audience, and include a clear call to action that encourages immediate engagement.
 
                 You will be given the following as input:
 
@@ -41,6 +41,7 @@ class SalesLeadEmailAgent():
                 - End with a warm closing and contact details placeholder.
                 - The business service description may not be provided, so instead only make use of the interests of the target audience.
                 - The email subject and body must be clearly distinct. No details or information in the subject should remain in the email body.
+                - If there is an interest in the target audience that is different from the service description then you can ignore that specific interest only.
 
                 The final output needs to be structured as follows:
                 subject: This is the email subject.
