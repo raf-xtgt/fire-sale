@@ -1,4 +1,6 @@
 "use client";
+import { useState, useEffect } from 'react';
+import { serviceSuiteService } from '@/app/services/serviceSuiteService';
 
 interface EmailHistoryCardProps {
   service: any;
@@ -6,11 +8,35 @@ interface EmailHistoryCardProps {
 }
 
 export default function EmailHistoryCard({ service, onClose }: EmailHistoryCardProps) {
+    const [emailLeads, setEmailLeads] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
   // Mock data - replace with actual API calls in your implementation
   const emailHistory = [
     { id: 1, date: '2023-05-01', subject: 'Regarding your inquiry', content: 'Thank you for reaching out to us...' },
     { id: 2, date: '2023-05-02', subject: 'Follow up', content: 'Just checking if you had any questions...' },
   ];
+
+    // Load services on component mount
+    useEffect(() => {
+        console.log("selected lead", service)
+        const fetchActiveLeads = async () => {
+        try {
+            setLoading(true);
+            const emailHistoryLeads = await serviceSuiteService.getMessagesByUserId(service.user_id);
+            setEmailLeads(emailHistoryLeads);
+        } catch (err) {
+            setError('Failed to load services');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+        };
+
+        fetchActiveLeads();
+    }, []);
+
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg h-full flex flex-col">
@@ -29,13 +55,13 @@ export default function EmailHistoryCard({ service, onClose }: EmailHistoryCardP
       <div className="flex-grow overflow-y-auto">
         {emailHistory.length > 0 ? (
           <div className="space-y-4">
-            {emailHistory.map((email) => (
+            {emailLeads.map((email) => (
               <div key={email.id} className="border-b pb-4 last:border-b-0">
                 <div className="flex justify-between items-start">
-                  <h4 className="font-medium">{email.subject}</h4>
-                  <span className="text-sm text-gray-500">{email.date}</span>
+                  <h4 className="font-medium">{email.email_subject}</h4>
+                  <span className="text-sm text-gray-500">{email.email_time}</span>
                 </div>
-                <p className="text-sm text-gray-600 mt-2">{email.content}</p>
+                <p className="text-sm text-gray-600 mt-2">{email.email_body}</p>
               </div>
             ))}
           </div>
