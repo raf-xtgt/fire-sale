@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FaHome, FaComments, FaBars, FaAngleLeft, FaUsersCog, FaBriefcase } from "react-icons/fa";
+import { FaSearch, FaComments, FaBars, FaAngleLeft, FaUsersCog, FaBriefcase } from "react-icons/fa";
 import Link from "next/link";
 import { useUser } from "@/app/state-controller/context/userContext";
 
@@ -31,8 +31,8 @@ export default function LayoutComponent({ children }: { children: React.ReactNod
             <ul>
               <li className="mb-2">
                 <Link href="/" className="flex items-center justify-center p-2 hover:bg-gray-700 rounded">
-                  <FaHome className="mr-2" />
-                  {isSidebarOpen && "Dashboard"} 
+                  <FaSearch className="mr-2" />
+                  {isSidebarOpen && "Lead Search"} 
                 </Link>
               </li>
               <li className="mb-2">          
